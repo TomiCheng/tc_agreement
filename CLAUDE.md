@@ -25,7 +25,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The crate list and workspace-wide checks live in the root
 [README.md](README.md); read it rather than restating it here. Every crate is
-`no_std`.
+`no_std`. `tc_agreement` needs no allocator; `tc_dh` always uses `alloc` for
+its integers.
 
 The crates follow Bouncy Castle's key-agreement classes and keep their names
 where they fit. `tc_agreement` holds the contracts alone: `Agreement`, after
@@ -34,13 +35,32 @@ at a fixed length rather than returning `IBasicAgreement`'s integer, and
 `AgreementInit<P>`, which takes the parameters holding the private key by
 reference. Initialization and calculation are separate traits. The traits
 make no timing promise; each implementation states its own. The crate has no
-dependencies and needs no allocator.
+dependencies and needs no allocator. `agreement_size` never panics: an
+agreement that learns the length from `init` reports 0 until then.
+
+`tc_dh` holds Diffie-Hellman agreement over the parameters and keys of
+`tc_dh_key`. `DhBasicAgreement`, after `DHBasicAgreement`, implements the
+`tc_agreement` traits. `DhAgreement`, after `DHAgreement`, is the MTI/A0
+agreement of RFC 2631; its extra `calculate_message` step does not fit the
+traits, so it keeps its own methods, as Bouncy Castle's class implements no
+agreement interface. Both validate the other party's public key, and the
+MTI/A0 message, with `DhPublicKey::validate`, turn down a secret of 1, and
+write the secret at the length of p. They are constant time in the private
+values; the checks are variable time, for public values.
+
+`tc_dh` has a `tests/documentation.rs` that requires the declarations it
+lists to say "constant time" or "variable time", exactly one, matched without
+case and across wrapped lines. Keep the timing contract of each item stated in
+its doc comment, and extend the list when adding declarations.
 
 `unsafe` code is forbidden at every crate root.
 
-Rust 1.85 is guaranteed for every build. Dev-dependencies are exempt. Adding
-a third-party dependency to a library hands the 1.85 guarantee to that crate;
-raise it before doing so.
+Rust 1.85 is guaranteed for every build. Besides `tc_*` crates, the libraries
+depend on `num-traits` and `rand_core`, and both build on 1.85;
+dev-dependencies such as `rand` are exempt, so tests run on stable.
+`.cargo/config.toml` sets `incompatible-rust-versions = "allow"` so
+`Cargo.lock` tracks the latest releases. Adding a third-party dependency to a
+library hands the 1.85 guarantee to that crate; raise it before doing so.
 
 A crate depends on a workspace sibling through `path` plus `version`, so the
 workspace builds and tests against the local crate while the published package

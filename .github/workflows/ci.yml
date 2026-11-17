@@ -80,7 +80,9 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         env:
           RUSTUP_TOOLCHAIN: 1.85.0
-      # Dev-dependencies are exempt, so tests run on stable only.
+      # Rust 1.85 covers every dependency of the libraries, the tc_* crates,
+      # num-traits and rand_core. Dev-dependencies such as rand are exempt, so
+      # tests run on stable only.
       - run: cargo +1.85.0 check --locked
       - run: cargo +1.85.0 check --locked --all-features
 
@@ -102,7 +104,7 @@ jobs:
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings
       - run: cargo doc --locked --no-deps
       - run: cargo doc --locked --no-deps --all-features
-      - run: cargo package --locked -p tc_agreement
+      - run: cargo package --locked -p tc_agreement -p tc_dh
         env:
           # Keep unpacked package manifests outside rust-cache's build tree.
           CARGO_TARGET_DIR: ${{ runner.temp }}/package
@@ -136,4 +138,6 @@ jobs:
           for target in aarch64-unknown-none wasm32-unknown-unknown x86_64-unknown-linux-gnu i686-unknown-linux-gnu; do
             check 'tc_agreement' -p tc_agreement --target "$target"
             check 'tc_agreement' -p tc_agreement --target "$target" --all-features
+            check 'num-traits rand_core tc_agreement tc_asym_cipher tc_bigint tc_constant_time tc_dh tc_dh_key tc_modular tc_prime tc_zeroize' -p tc_dh --target "$target"
+            check 'num-traits rand_core tc_agreement tc_asym_cipher tc_bigint tc_constant_time tc_dh tc_dh_key tc_modular tc_prime tc_zeroize' -p tc_dh --target "$target" --all-features
           done

@@ -1,0 +1,13 @@
+[package]
+name = "tc_agreement"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Shared contracts for key agreement, after Bouncy Castle's IRawAgreement."
+readme = "README.md"
+documentation = "https://docs.rs/tc_agreement"
+keywords = ["key-agreement", "diffie-hellman", "cryptography", "no-std", "traits"]
+categories = ["cryptography", "no-std::no-alloc"]
+include = ["src/**", "README.md", "CHANGELOG.md", "LICENSE-MIT", "LICENSE-APACHE"]

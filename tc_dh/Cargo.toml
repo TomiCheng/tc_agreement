@@ -1,0 +1,26 @@
+[package]
+name = "tc_dh"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Diffie-Hellman key agreement after Bouncy Castle: the basic agreement and the MTI/A0 agreement of RFC 2631."
+readme = "README.md"
+documentation = "https://docs.rs/tc_dh"
+keywords = ["diffie-hellman", "dh", "key-agreement", "cryptography", "no-std"]
+categories = ["cryptography", "no-std"]
+include = ["src/**", "tests/**", "README.md", "CHANGELOG.md", "LICENSE-MIT", "LICENSE-APACHE"]
+
+[dependencies]
+rand_core = { version = "0.10.1", default-features = false }
+tc_agreement = { version = "0.1.0", path = "../tc_agreement" }
+tc_asym_cipher = "0.2.0"
+tc_bigint = { version = "0.1.0", features = ["alloc"] }
+tc_constant_time = "0.1.0"
+tc_dh_key = "0.1.0"
+tc_modular = { version = "0.1.0", features = ["alloc"] }
+tc_zeroize = "0.1.0"
+
+[dev-dependencies]
+rand = "0.10.3"

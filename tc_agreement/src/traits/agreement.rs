@@ -19,8 +19,9 @@ pub trait Agreement {
     type Error: core::error::Error;
 
     /// The length of the shared secret in bytes, Bouncy Castle's
-    /// `AgreementSize`, set by initialization rather than by any key's
-    /// value.
+    /// `AgreementSize`, set by the parameters rather than by any key's value.
+    /// It never panics: an agreement that learns the length from
+    /// initialization returns 0 until [`AgreementInit::init`] succeeds.
     fn agreement_size(&self) -> usize;
 
     /// Writes the shared secret with `public_key` into the first

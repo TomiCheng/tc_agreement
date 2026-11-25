@@ -300,6 +300,31 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d9f70ee51cf053b9ba11bb992cb141769d0968ac50e4f92f00e2546ca4faae3"
 
 [[package]]
+name = "tc_sha"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2210d651adb5c6d7e72c787dfba177646f72954475eaf8b665a42c1ae06708cb"
+dependencies = [
+ "tc_digest",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_srp6"
+version = "0.1.0"
+dependencies = [
+ "rand",
+ "rand_core",
+ "tc_bigint",
+ "tc_constant_time",
+ "tc_dh_key",
+ "tc_digest",
+ "tc_modular",
+ "tc_sha",
+ "tc_zeroize",
+]
+
+[[package]]
 name = "tc_zeroize"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

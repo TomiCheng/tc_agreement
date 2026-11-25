@@ -25,8 +25,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The crate list and workspace-wide checks live in the root
 [README.md](README.md); read it rather than restating it here. Every crate is
-`no_std`. `tc_agreement` needs no allocator; `tc_dh` and `tc_ec_agreement`
-always use `alloc` for their integers.
+`no_std`. `tc_agreement` needs no allocator; `tc_dh`, `tc_ec_agreement` and
+`tc_srp6` always use `alloc` for their integers.
 
 The crates follow Bouncy Castle's key-agreement classes and keep their names
 where they fit. `tc_agreement` holds the contracts alone: `Agreement`, after
@@ -58,9 +58,19 @@ its own error type. Finite-field agreement stays in `tc_dh`. They are as
 constant time in the private keys as the curve's point multiplication; the
 checks on domains and public keys are variable time.
 
-`tc_dh` and `tc_ec_agreement` each have a `tests/documentation.rs` that
-requires the declarations it lists to say "constant time" or "variable time",
-exactly one, matched without case and across wrapped lines. Keep the timing contract of each item stated in
+`tc_srp6` holds SRP-6a of RFC 5054: `Srp6Client`, `Srp6Server`,
+`Srp6VerifierGenerator`, `Srp6GroupParameters` with `standard_groups`, and
+the public `utilities` module after `Srp6Utilities`. Like `DhAgreement`, its
+steps do not fit the `tc_agreement` traits, so it keeps Bouncy Castle's
+methods and depends on no sibling. Where Bouncy Castle throws because a value
+is longer than N, the utilities return `Srp6Error::ValueTooLong`, and they
+pad every value before feeding the digest, so a rejected call leaves the
+caller's digest untouched. The RFC 5054 appendix B vectors are a unit test in
+`src/tests.rs`, since they need the crate-internal `credentials_with`.
+
+`tc_dh`, `tc_ec_agreement` and `tc_srp6` each have a `tests/documentation.rs`
+that requires the declarations it lists to say "constant time" or "variable
+time", exactly one, matched without case and across wrapped lines. Keep the timing contract of each item stated in
 its doc comment, and extend the list when adding declarations.
 
 `unsafe` code is forbidden at every crate root.

@@ -1,0 +1,26 @@
+[package]
+name = "tc_srp6"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "SRP-6a password-authenticated key exchange (RFC 5054) after Bouncy Castle."
+readme = "README.md"
+documentation = "https://docs.rs/tc_srp6"
+keywords = ["srp", "pake", "password", "key-exchange", "no-std"]
+categories = ["cryptography", "authentication", "no-std"]
+include = ["src/**", "tests/**", "README.md", "CHANGELOG.md", "LICENSE-MIT", "LICENSE-APACHE"]
+
+[dependencies]
+rand_core = { version = "0.10.1", default-features = false }
+tc_bigint = { version = "0.1.0", features = ["alloc", "rand_core"] }
+tc_constant_time = "0.1.0"
+tc_digest = "0.1.0"
+tc_modular = { version = "0.1.0", features = ["alloc"] }
+tc_zeroize = { version = "0.1.0", features = ["alloc"] }
+
+[dev-dependencies]
+rand = "0.10.3"
+tc_dh_key = "0.1.0"
+tc_sha = "0.1.1"

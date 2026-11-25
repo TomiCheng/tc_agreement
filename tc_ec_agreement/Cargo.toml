@@ -1,0 +1,30 @@
+[package]
+name = "tc_ec_agreement"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Key agreement over elliptic curves after Bouncy Castle: ECDH, ECDHC, EC-MQV and GOST VKO."
+readme = "README.md"
+documentation = "https://docs.rs/tc_ec_agreement"
+keywords = ["ecdh", "mqv", "elliptic-curve", "key-agreement", "no-std"]
+categories = ["cryptography", "no-std"]
+include = ["src/**", "tests/**", "README.md", "CHANGELOG.md", "LICENSE-MIT", "LICENSE-APACHE"]
+
+[dependencies]
+tc_agreement = { version = "0.1.0", path = "../tc_agreement" }
+tc_bigint = { version = "0.1.0", features = ["alloc"] }
+tc_digest = "0.1.0"
+tc_ec_core = "0.1.0"
+tc_ec_key = "0.1.0"
+tc_modular = { version = "0.1.0", features = ["alloc"] }
+tc_zeroize = "0.1.0"
+
+[dev-dependencies]
+rand = "0.10.3"
+tc_asym_cipher = "0.2.0"
+tc_f2m_curve = "0.1.0"
+tc_fp_curve = "0.1.0"
+tc_fp_custom = { version = "0.1.0", features = ["small-curves"] }
+tc_gost3411 = "0.1.0"

@@ -25,8 +25,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The crate list and workspace-wide checks live in the root
 [README.md](README.md); read it rather than restating it here. Every crate is
-`no_std`. `tc_agreement` needs no allocator; `tc_dh` always uses `alloc` for
-its integers.
+`no_std`. `tc_agreement` needs no allocator; `tc_dh` and `tc_ec_agreement`
+always use `alloc` for their integers.
 
 The crates follow Bouncy Castle's key-agreement classes and keep their names
 where they fit. `tc_agreement` holds the contracts alone: `Agreement`, after
@@ -48,9 +48,19 @@ MTI/A0 message, with `DhPublicKey::validate`, turn down a secret of 1, and
 write the secret at the length of p. They are constant time in the private
 values; the checks are variable time, for public values.
 
-`tc_dh` has a `tests/documentation.rs` that requires the declarations it
-lists to say "constant time" or "variable time", exactly one, matched without
-case and across wrapped lines. Keep the timing contract of each item stated in
+`tc_ec_agreement` holds the agreements over elliptic curves, over the keys
+of `tc_ec_key`, in one module per algorithm: `EcdhBasicAgreement` and
+`EcdhcBasicAgreement` (ECDH and ECDHC), `EcMqvBasicAgreement` with
+`MqvPrivateParams` and `MqvPublicParams`, and `EcVkoAgreement`, the GOST VKO
+of RFC 7836, generic over its digest, with `EcVkoParams`. All implement the
+`tc_agreement` traits and are re-exported at the crate root; each module keeps
+its own error type. Finite-field agreement stays in `tc_dh`. They are as
+constant time in the private keys as the curve's point multiplication; the
+checks on domains and public keys are variable time.
+
+`tc_dh` and `tc_ec_agreement` each have a `tests/documentation.rs` that
+requires the declarations it lists to say "constant time" or "variable time",
+exactly one, matched without case and across wrapped lines. Keep the timing contract of each item stated in
 its doc comment, and extend the list when adding declarations.
 
 `unsafe` code is forbidden at every crate root.

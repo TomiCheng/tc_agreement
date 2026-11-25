@@ -107,6 +107,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "tc_binpoly"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "88f622b1b82f070cfb18b7405d05fa9ddcd4d22c2d02c3b9b8715c6e2b322001"
+dependencies = [
+ "tc_constant_time",
+ "tc_runtime",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_block_cipher"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b5c9a05f0da6a7be4ec50bc95a48c4b6e7abc6fbcae2f43c5009c96f5d32328d"
+dependencies = [
+ "tc_zeroize",
+]
+
+[[package]]
 name = "tc_constant_time"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -142,6 +162,114 @@ dependencies = [
 ]
 
 [[package]]
+name = "tc_digest"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bf0a02b57924ef895bdedcc8f9d703e57caf831f578eeda6e97ed246e0fb59c6"
+
+[[package]]
+name = "tc_ec_agreement"
+version = "0.1.0"
+dependencies = [
+ "rand",
+ "tc_agreement",
+ "tc_asym_cipher",
+ "tc_bigint",
+ "tc_digest",
+ "tc_ec_core",
+ "tc_ec_key",
+ "tc_f2m_curve",
+ "tc_fp_curve",
+ "tc_fp_custom",
+ "tc_gost3411",
+ "tc_modular",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_ec_core"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e08e2ada75e70c99a940d37dd48ff23d2361052c9e7315966928dad6798303a3"
+dependencies = [
+ "tc_bigint",
+ "tc_constant_time",
+]
+
+[[package]]
+name = "tc_ec_key"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f23308268814dc0ecfbdf0fa9faa7dde6fe685dcd7b392c4ec3bf172d798678b"
+dependencies = [
+ "rand_core",
+ "tc_asym_cipher",
+ "tc_bigint",
+ "tc_ec_core",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_f2m_curve"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f2775b77bcf4ae1c67b84da805bab015500772f5be93b1c53b0331a6d4cf55a1"
+dependencies = [
+ "tc_bigint",
+ "tc_binpoly",
+ "tc_constant_time",
+ "tc_ec_core",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_fp_curve"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dc42c34acb0422e9d5a0ab1355556d6579579768413905fdb55988d4e6aade20"
+dependencies = [
+ "tc_bigint",
+ "tc_constant_time",
+ "tc_ec_core",
+ "tc_modular",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_fp_custom"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bf518e9e61bfc672b999e8379c0d13b144e35b0729181875016311aa0b314e9"
+dependencies = [
+ "tc_bigint",
+ "tc_constant_time",
+ "tc_ec_core",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_gost28147"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b54d4f875d196c123ca065208bbceeb75812e5ad27fbd52b7f6012a48d061fb2"
+dependencies = [
+ "tc_block_cipher",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_gost3411"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "79c9a851d7af022cb9a4c65d3437baaa71b00d7278876c4c5fbbe6d3e3e9177a"
+dependencies = [
+ "tc_block_cipher",
+ "tc_digest",
+ "tc_gost28147",
+ "tc_zeroize",
+]
+
+[[package]]
 name = "tc_modular"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -164,6 +292,12 @@ dependencies = [
  "tc_bigint",
  "tc_modular",
 ]
+
+[[package]]
+name = "tc_runtime"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d9f70ee51cf053b9ba11bb992cb141769d0968ac50e4f92f00e2546ca4faae3"
 
 [[package]]
 name = "tc_zeroize"

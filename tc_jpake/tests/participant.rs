@@ -67,7 +67,10 @@ fn a_participant_needs_init_and_a_password() {
 #[test]
 fn a_password_that_is_zero_modulo_q_is_refused_at_init() {
     let group = sun_jce_1024();
-    let password = tc_bigint::ArrayEncoding::<u8>::to_be(&(group.q() * 3u32));
+    // In BigUint, whose width grows: q fills its limbs exactly with 32-bit limbs, so
+    // PaddedBigUint's fixed-width product would overflow.
+    let q = tc_bigint::BigUint::from(group.q().clone());
+    let password = tc_bigint::ArrayEncoding::<u8>::to_be(&(q * 3u32));
     let mut participant = JPakeParticipant::new(rand::rng());
     assert_eq!(
         participant.init(&JPakeParams::new("participantId", &password).with_group(group)),

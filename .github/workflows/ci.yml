@@ -104,7 +104,7 @@ jobs:
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings
       - run: cargo doc --locked --no-deps
       - run: cargo doc --locked --no-deps --all-features
-      - run: cargo package --locked -p tc_agreement -p tc_dh -p tc_ec_agreement -p tc_srp6
+      - run: cargo package --locked -p tc_agreement -p tc_dh -p tc_ec_agreement -p tc_jpake -p tc_srp6
         env:
           # Keep unpacked package manifests outside rust-cache's build tree.
           CARGO_TARGET_DIR: ${{ runner.temp }}/package
@@ -144,4 +144,6 @@ jobs:
             check 'num-traits rand_core tc_agreement tc_asym_cipher tc_bigint tc_constant_time tc_digest tc_ec_agreement tc_ec_core tc_ec_key tc_modular tc_zeroize' -p tc_ec_agreement --target "$target" --all-features
             check 'num-traits rand_core tc_bigint tc_constant_time tc_digest tc_modular tc_srp6 tc_zeroize' -p tc_srp6 --target "$target"
             check 'num-traits rand_core tc_bigint tc_constant_time tc_digest tc_modular tc_srp6 tc_zeroize' -p tc_srp6 --target "$target" --all-features
+            check 'num-traits rand_core tc_bigint tc_block_cipher tc_constant_time tc_digest tc_jpake tc_macs tc_modular tc_prime tc_sha tc_zeroize' -p tc_jpake --target "$target"
+            check 'num-traits rand_core tc_bigint tc_block_cipher tc_constant_time tc_digest tc_jpake tc_macs tc_modular tc_prime tc_sha tc_zeroize' -p tc_jpake --target "$target" --all-features
           done

@@ -127,6 +127,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "tc_block_modes"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6ab2c1d0eba6c78b5a15a79aa3fedeed068843d1654afc25d472a63bb4f29daf"
+dependencies = [
+ "tc_block_cipher",
+ "tc_zeroize",
+]
+
+[[package]]
 name = "tc_constant_time"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -266,6 +276,34 @@ dependencies = [
  "tc_block_cipher",
  "tc_digest",
  "tc_gost28147",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_jpake"
+version = "0.1.0"
+dependencies = [
+ "rand",
+ "rand_core",
+ "tc_bigint",
+ "tc_constant_time",
+ "tc_digest",
+ "tc_macs",
+ "tc_modular",
+ "tc_prime",
+ "tc_sha",
+ "tc_zeroize",
+]
+
+[[package]]
+name = "tc_macs"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c2cdad045880de68459b3cdd2654abf07f4faf336398bbe55c5d08ac906f122f"
+dependencies = [
+ "tc_block_cipher",
+ "tc_block_modes",
+ "tc_digest",
  "tc_zeroize",
 ]
 

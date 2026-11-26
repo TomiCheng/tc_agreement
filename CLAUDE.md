@@ -25,8 +25,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The crate list and workspace-wide checks live in the root
 [README.md](README.md); read it rather than restating it here. Every crate is
-`no_std`. `tc_agreement` needs no allocator; `tc_dh`, `tc_ec_agreement` and
-`tc_srp6` always use `alloc` for their integers.
+`no_std`. `tc_agreement` needs no allocator; `tc_dh`, `tc_ec_agreement`,
+`tc_jpake` and `tc_srp6` always use `alloc` for their integers.
 
 The crates follow Bouncy Castle's key-agreement classes and keep their names
 where they fit. `tc_agreement` holds the contracts alone: `Agreement`, after
@@ -68,10 +68,20 @@ pad every value before feeding the digest, so a rejected call leaves the
 caller's digest untouched. The RFC 5054 appendix B vectors are a unit test in
 `src/tests.rs`, since they need the crate-internal `credentials_with`.
 
-`tc_dh`, `tc_ec_agreement` and `tc_srp6` each have a `tests/documentation.rs`
-that requires the declarations it lists to say "constant time" or "variable
-time", exactly one, matched without case and across wrapped lines. Keep the timing contract of each item stated in
-its doc comment, and extend the list when adding declarations.
+`tc_jpake` holds J-PAKE: `JPakeParticipant` with `JPakeParams`, the payloads
+of its three rounds, `JPakePrimeOrderGroup` with `standard_groups`, and
+`JPakeState`. Like `tc_srp6`, its rounds do not fit the `tc_agreement`
+traits, so it keeps Bouncy Castle's methods and depends on no sibling. Bouncy
+Castle's `JPakeUtilities` stays private here. A participant ID is checked to
+be shorter than `2^32` bytes at `init` and when the partner's first arrives,
+so the proof's hash never meets a longer one.
+
+`tc_dh`, `tc_ec_agreement`, `tc_jpake` and `tc_srp6` each have a
+`tests/documentation.rs` that requires the declarations it lists to say
+"constant time" or "variable time", exactly one, matched without case and
+across wrapped lines; `tc_jpake` checks every function, private helpers
+included. Keep the timing contract of each item stated in its doc comment,
+and extend the list when adding declarations.
 
 `unsafe` code is forbidden at every crate root.
 
